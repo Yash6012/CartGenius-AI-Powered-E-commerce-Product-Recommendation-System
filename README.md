@@ -1,5 +1,4 @@
-# 🛍️ Smart Recommender - AI-Powered E-commerce Product Recommendation System
-
+# 🛍️ CartGenius - AI-Powered E-commerce Product Recommendation System
 A sophisticated, modern web application that provides intelligent product recommendations using multiple machine learning algorithms, complete with LLM-generated explanations and a beautiful, responsive user interface.
 
 ## 🌟 Features Overview
@@ -237,3 +236,4 @@ pie title Recommendation Algorithm Usage
 **Built with ❤️ for modern e-commerce recommendation systems**
 
 *For technical support or feature requests, please open an issue in the repository.*
+
