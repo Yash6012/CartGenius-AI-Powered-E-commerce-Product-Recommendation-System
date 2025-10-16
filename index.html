@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Product Recommender</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- Left Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar__header">
+                <div class="sidebar__brand">
+                    <div class="brand__icon">🛍️</div>
+                    <div class="brand__content">
+                        <h1 class="brand__title">Smart Recommender</h1>
+                        <span class="brand__tagline">Intelligent Discovery</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar__nav">
+                <div class="nav__section">
+                    <h3 class="nav__section-title">Main</h3>
+                    <button class="nav__item nav__item--active" data-view="dashboard">
+                        <div class="nav__item-icon">📊</div>
+                        <div class="nav__item-content">
+                            <span class="nav__item-title">Dashboard</span>
+                            <span class="nav__item-subtitle">Overview & Stats</span>
+                        </div>
+                        <div class="nav__item-indicator"></div>
+                    </button>
+                    
+                    <button class="nav__item" data-view="catalog">
+                        <div class="nav__item-icon">🛍️</div>
+                        <div class="nav__item-content">
+                            <span class="nav__item-title">Catalog</span>
+                            <span class="nav__item-subtitle">Browse Products</span>
+                        </div>
+                        <div class="nav__item-indicator"></div>
+                    </button>
+                </div>
+                
+                <div class="nav__section">
+                    <h3 class="nav__section-title">User</h3>
+                    <button class="nav__item" data-view="profile">
+                        <div class="nav__item-icon">👤</div>
+                        <div class="nav__item-content">
+                            <span class="nav__item-title">Profile</span>
+                            <span class="nav__item-subtitle">Personal Settings</span>
+                        </div>
+                        <div class="nav__item-indicator"></div>
+                    </button>
+                </div>
+                
+                <div class="nav__section">
+                    <h3 class="nav__section-title">Analytics</h3>
+                    <button class="nav__item" data-view="analytics">
+                        <div class="nav__item-icon">📈</div>
+                        <div class="nav__item-content">
+                            <span class="nav__item-title">Analytics</span>
+                            <span class="nav__item-subtitle">Data Insights</span>
+                        </div>
+                        <div class="nav__item-indicator"></div>
+                    </button>
+                    
+                    <button class="nav__item" data-view="api">
+                        <div class="nav__item-icon">⚙️</div>
+                        <div class="nav__item-content">
+                            <span class="nav__item-title">API Demo</span>
+                            <span class="nav__item-subtitle">Test Endpoints</span>
+                        </div>
+                        <div class="nav__item-indicator"></div>
+                    </button>
+                </div>
+            </nav>
+            
+            <div class="sidebar__footer">
+                <div class="theme-switcher">
+                    <button id="themeToggle" class="theme-toggle" title="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                        <span class="theme-text">Dark Mode</span>
+                    </button>
+                </div>
+                
+                <div class="user-selector">
+                    <label class="user-selector__label">Current User</label>
+                    <select id="userSelector" class="user-selector__input">
+                        <option value="U001">Alice Johnson</option>
+                        <option value="U002">Bob Smith</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Dashboard View -->
+                <section id="dashboard-view" class="view view--active">
+                    <div class="view__header">
+                        <h2>Personalized Recommendations</h2>
+                        <p class="view__description">AI-powered product suggestions tailored just for you</p>
+                    </div>
+                    
+                    <!-- User Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card__icon">🎯</div>
+                            <div class="stat-card__content">
+                                <div class="stat-card__value" id="accuracy-stat">84%</div>
+                                <div class="stat-card__label">Recommendation Accuracy</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__icon">🛒</div>
+                            <div class="stat-card__content">
+                                <div class="stat-card__value" id="purchases-stat">12</div>
+                                <div class="stat-card__label">Items Purchased</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__icon">👀</div>
+                            <div class="stat-card__content">
+                                <div class="stat-card__value" id="views-stat">47</div>
+                                <div class="stat-card__label">Products Viewed</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__icon">⭐</div>
+                            <div class="stat-card__content">
+                                <div class="stat-card__value" id="rating-stat">4.6</div>
+                                <div class="stat-card__label">Avg Rating Given</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations Section -->
+                    <div class="recommendations-section">
+                        <div class="section-header">
+                            <h3>Recommended for You</h3>
+                            <div class="algorithm-selector">
+                                <label class="form-label">Algorithm:</label>
+                                <select id="algorithmSelector" class="form-control form-control--sm">
+                                    <option value="hybrid">Hybrid (Best)</option>
+                                    <option value="collaborative">Collaborative Filtering</option>
+                                    <option value="content_based">Content-Based</option>
+                                    <option value="popularity">Popularity-Based</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="recommendations-grid" class="recommendations-grid"></div>
+                    </div>
+                </section>
+
+                <!-- Product Catalog View -->
+                <section id="catalog-view" class="view">
+                    <div class="view__header">
+                        <h2>Product Catalog</h2>
+                        <p class="view__description">Browse our complete collection of products</p>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="filters">
+                        <div class="filters__group">
+                            <label class="form-label">Category:</label>
+                            <select id="categoryFilter" class="form-control">
+                                <option value="">All Categories</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Books">Books</option>
+                                <option value="Sports">Sports</option>
+                            </select>
+                        </div>
+                        <div class="filters__group">
+                            <label class="form-label">Search:</label>
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search products...">
+                        </div>
+                        <div class="filters__group">
+                            <label class="form-label">Sort by:</label>
+                            <select id="sortFilter" class="form-control">
+                                <option value="name">Name</option>
+                                <option value="price">Price</option>
+                                <option value="rating">Rating</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="products-grid" class="products-grid"></div>
+                </section>
+
+                <!-- User Profile View -->
+                <section id="profile-view" class="view">
+                    <div class="view__header">
+                        <h2>User Profile</h2>
+                        <p class="view__description">Your preferences and interaction history</p>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <div class="profile-info">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Profile Information</h3>
+                                    <div id="profile-details"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Preferences</h3>
+                                    <div id="user-preferences"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-activity">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Interaction History</h3>
+                                    <div id="interaction-history"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Personal Recommendations</h3>
+                                    <div id="profile-recommendations"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Dashboard View -->
+                <section id="analytics-view" class="view">
+                    <div class="view__header">
+                        <h2>Analytics Dashboard</h2>
+                        <p class="view__description">System performance and recommendation insights</p>
+                    </div>
+                    
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Algorithm Performance</h3>
+                                    <div class="chart-container">
+                                        <canvas id="algorithmChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>User Engagement</h3>
+                                    <div class="chart-container">
+                                        <canvas id="engagementChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Popular Categories</h3>
+                                    <div class="chart-container">
+                                        <canvas id="categoriesChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Recommendation Trends</h3>
+                                    <div class="chart-container">
+                                        <canvas id="trendsChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Demo View -->
+                <section id="api-view" class="view">
+                    <div class="view__header">
+                        <h2>API Demo</h2>
+                        <p class="view__description">Explore our recommendation API endpoints</p>
+                    </div>
+                    
+                    <div class="api-demo">
+                        <div class="api-section">
+                            <h3>Available Endpoints</h3>
+                            <div class="endpoints-list">
+                                <div class="endpoint-card">
+                                    <div class="endpoint-header">
+                                        <span class="method method--get">GET</span>
+                                        <code>/api/recommendations/{user_id}</code>
+                                    </div>
+                                    <p>Get personalized recommendations for a specific user</p>
+                                    <button class="btn btn--sm btn--primary" data-endpoint="recommendations">Try It</button>
+                                </div>
+                                
+                                <div class="endpoint-card">
+                                    <div class="endpoint-header">
+                                        <span class="method method--get">GET</span>
+                                        <code>/api/products</code>
+                                    </div>
+                                    <p>Retrieve product catalog with optional filtering</p>
+                                    <button class="btn btn--sm btn--primary" data-endpoint="products">Try It</button>
+                                </div>
+                                
+                                <div class="endpoint-card">
+                                    <div class="endpoint-header">
+                                        <span class="method method--post">POST</span>
+                                        <code>/api/interactions</code>
+                                    </div>
+                                    <p>Track user interactions with products</p>
+                                    <button class="btn btn--sm btn--primary" data-endpoint="interactions">Try It</button>
+                                </div>
+                                
+                                <div class="endpoint-card">
+                                    <div class="endpoint-header">
+                                        <span class="method method--get">GET</span>
+                                        <code>/api/explanations</code>
+                                    </div>
+                                    <p>Get LLM-generated explanations for recommendations</p>
+                                    <button class="btn btn--sm btn--primary" data-endpoint="explanations">Try It</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="api-testing">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>API Response</h3>
+                                    <div class="api-response">
+                                        <pre id="api-response-content">Click "Try It" on any endpoint to see the response</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="components.js"></script>
+    <script src="api.js"></script>
+</body>
+</html>
